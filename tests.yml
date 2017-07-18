@@ -6,7 +6,7 @@ services:
 
   # Test image (packages, services, scripts)
   test-image:
-    image: bandsintown/zookeeper-test:${VERSION}
+    image: bandsintown/solr-test:${VERSION}
     command: bats /tests/image
     environment:
       - VERSION=${VERSION}
@@ -14,13 +14,14 @@ services:
 
   # Tests for consul template
   test-consul-template:
-    image: bandsintown/zookeeper-test:${VERSION}
+    image: bandsintown/solr-test:${VERSION}
     command: dockerize -wait http://consul:8500 -timeout 10s bats /tests/consul-template
     depends_on:
       - consul
     environment:
       - DISABLE_CONSUL_TEMPLATE=true
       - CONSUL_HTTP_ADDR=consul:8500
+      - ZK_SERVICE=zookeeper
       - VERSION=${VERSION}
 
   # Consul

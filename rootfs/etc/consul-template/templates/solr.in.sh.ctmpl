@@ -9,16 +9,17 @@
 # Set the ZooKeeper connection string if using an external ZooKeeper ensemble
 # e.g. host1:2181,host2:2181/chroot
 # Leave empty if not using SolrCloud
-{{ $zk_service := or (env "ZK_SERVICE") "none"  }}
-{{ if ne $zk_service "none" }}{{ $zk_len := len service $zk_service}}
-ZK_HOST={{ range service $zk_service}}{{ .Address }}:{{.Port}}{if (ne $index $zk_len - 1) }},{{ end }}{{ end }}
+{{ $zk_service := env "ZK_SERVICE" }}{{ if $zk_service }}{{ $index_max := len (service $zk_service) | subtract 1 }}{{ if ne $index_max -1 }}
+ZK_HOST={{ range $index, $service := service $zk_service }}{{ $service.Address }}:{{ $service.Port }}{{ if (ne $index $index_max) }},{{ end }}{{ end }}{{ or (env "ZK_CHROOT") "/solr" }}
+{{ end }}{{ end }}
 
 # Set the ZooKeeper client timeout (for SolrCloud mode)
 ZK_CLIENT_TIMEOUT="{{ keyOrDefault (printf "%s/ZK_CLIENT_TIMEOUT" $base_path ) "15000" }}"
 
+# By default the start script uses "localhost"; override the hostname here
+# for production SolrCloud environments to control the hostname exposed to cluster state
 # The SOLR_HOST is setup when the container start (see /etc/cont-init.d/solr)
-# When running on AWS the SOLR_HOST is set to the EC2 private ip, else it's the Docker IP (might change which is not good for SolrCloud)
-# SOLR_HOST="192.168.1.1"
+SOLR_HOST="{{ or (env "SOLR_HOST") "localhost" }}"
 
 # By default the start script uses UTC; override the timezone if needed
 SOLR_TIMEZONE="{{ keyOrDefault (printf "%s/SOLR_TIMEZONE" $base_path ) "UTC" }}"

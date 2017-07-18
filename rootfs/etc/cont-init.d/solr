@@ -1,18 +1,16 @@
 #!/usr/bin/with-contenv bash
 
-set -e
-
 if [[ "$VERBOSE" = "yes" ]]; then
     set -x
 fi
 
+# Try to resolve the IP locally
+SOLR_IP="$(ip -o -4 addr list ${SOLR_BIND_INTERFACE:-eth0} | head -n1 | awk '{print $4}' | cut -d/ -f1)"
+
 # Defines the EC2 instance ip on aws
 EC2_IP="$(curl -s --connect-timeout 5 http://169.254.169.254/latest/meta-data/local-ipv4)"
 if [ -n "${EC2_IP}" ]; then
-  SOLR_IP=${EC2_IP}
-else
-  # Try to resolve the IP locally
-  SOLR_IP="$(ip -o -4 addr list ${ZOO_BIND_INTERFACE:-eth0} | head -n1 | awk '{print $4}' | cut -d/ -f1)"
+  SOLR_IP="${EC2_IP}"
 fi
 
 echo -n "${SOLR_IP}" > /var/run/s6/container_environment/SOLR_HOST

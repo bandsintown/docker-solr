@@ -43,6 +43,7 @@ services:
       - consulator
     command: consul-template -config /etc/consul-template/conf
     environment:
+      - SERVICE_2181_NAME=zookeeper
       - CONSUL_HTTP_ADDR=consul:8500
       - DISABLE_CONSUL_TEMPLATE=true
       - S6_LOGGING=0
@@ -55,7 +56,7 @@ services:
   solr:
     image: bandsintown/solr:6.6.0
     depends_on:
-      - consul
+      - zookeeper
       - consulator
     command: consul-template -config /etc/consul-template/conf
     environment:
@@ -63,5 +64,6 @@ services:
       - DISABLE_CONSUL_TEMPLATE=true
       - S6_LOGGING=0
       - ZK_SERVICE=zookeeper
+      - VERBOSE=yes
     ports:
       - 8983

@@ -1,0 +1,9 @@
+# Define tests for services functions
+{{ range services }}
+{{ range service .Name }}
+service {{ .Name }}: {{ .Address }}:{{ .Port }}
+{{ end }}
+{{ end }}
+
+# Define Tests for kv functions
+key_or_default: {{ key_or_default "tests/key_or_default" "default" }}

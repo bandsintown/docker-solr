@@ -24,6 +24,7 @@ RUN addgroup -S -g $SOLR_UID $SOLR_USER && \
   adduser -S -u $SOLR_UID -G $SOLR_USER -g $SOLR_USER $SOLR_USER
 
 ENV SOLR_VERSION 6.6.0
+ENV SERVICE_NAME="solr" SERVICE_VERSION="${SOLR_VERSION}"
 ENV SOLR_URL ${SOLR_DOWNLOAD_SERVER:-https://archive.apache.org/dist/lucene/solr}/$SOLR_VERSION/solr-$SOLR_VERSION.tgz
 ENV SOLR_SHA256 6b1d1ed0b74aef320633b40a38a790477e00d75b56b9cdc578533235315ffa1e
 ENV SOLR_KEYS 2085660D9C1FCCACC4A479A3BF160FF14992A24C
@@ -58,7 +59,8 @@ RUN mkdir -p /opt/solr && \
   sed -i -e 's/#SOLR_PORT=8983/SOLR_PORT=8983/' /opt/solr/bin/solr.in.sh && \
   sed -i -e '/-Dsolr.clustering.enabled=true/ a SOLR_OPTS="$SOLR_OPTS -Dsun.net.inetaddr.ttl=60 -Dsun.net.inetaddr.negative.ttl=60"' /opt/solr/bin/solr.in.sh && \
   chown -R $SOLR_USER:$SOLR_USER /opt/solr && \
-  mkdir /docker-entrypoint-initdb.d /opt/docker-solr/
+  mkdir /docker-entrypoint-initdb.d && \
+  echo -ne "- with Solr: $SERVICE_VERSION\n" >> /root/.built
 
 RUN chown -R $SOLR_USER:$SOLR_USER /opt/docker-solr
 
@@ -66,7 +68,6 @@ ENV PATH /opt/solr/bin:/opt/docker-solr/scripts:$PATH
 
 EXPOSE 8983
 WORKDIR /opt/solr
-USER $SOLR_USER
 
 ENTRYPOINT ["/init"]
-CMD ["su-exec", "solr"  "solr-foreground"]
+CMD ["su-exec", "$SOLR_USER"  "solr-foreground"]
