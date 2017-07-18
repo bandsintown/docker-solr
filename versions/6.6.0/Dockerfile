@@ -70,4 +70,4 @@ EXPOSE 8983
 WORKDIR /opt/solr
 
 ENTRYPOINT ["/init"]
-CMD ["su-exec", "$SOLR_USER"  "solr-foreground"]
+CMD ["su-exec", "solr", "solr-foreground"]
