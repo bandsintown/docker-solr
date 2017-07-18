@@ -41,7 +41,7 @@ $ docker exec -it --user=solr my_solr post -c gettingstarted example/exampledocs
 
 In the UI, find the "Core selector" popup menu and select the "gettingstarted" core, then select the "Query" menu item. This gives you a default search for `*:*` which returns all docs. Hit the "Execute Query" button, and you should see a few docs with data. Congratulations!
 
-## Single-command demo
+## Single-command demo (to fix)
 
 For convenience, there is a single command that starts Solr, creates a collection called "demo", and loads sample data into it:
 
