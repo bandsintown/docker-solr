@@ -245,7 +245,7 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
 # Supported Docker versions
 
-This image has been built and tested with Docker version 1.11.
+This image has been built and tested with Docker version 17.06.0-ce-mac18.
 
 # User Feedback
 
