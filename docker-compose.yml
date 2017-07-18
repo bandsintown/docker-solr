@@ -1,0 +1,67 @@
+version: '2'
+
+services:
+
+  # Consul
+  consul:
+    image: consul:0.7.5
+    command: "agent -dev -client 0.0.0.0 -ui"
+    container_name: consul
+    ports:
+      - 8301
+      - 8500
+    environment:
+      - CONSUL_BIND_INTERFACE=eth0
+      - SERVICE_IGNORE=true
+
+  # Registrator
+  registrator:
+    image: nhuray/registrator:v7
+    command: "-internal consul://consul:8500"
+    container_name: registrator
+    depends_on:
+      - consul
+    volumes:
+    - /var/run/docker.sock:/tmp/docker.sock
+
+  # Consulator
+  consulator:
+    image: lewispeckover/consulator
+    command: "sync -prefix=service /app/consulator.yml"
+    depends_on:
+      - consul
+    volumes:
+      - ./consulator.yml:/app/consulator.yml
+    environment:
+      - CONSUL_HTTP_ADDR=consul:8500
+
+  # Zookeeper
+  zookeeper:
+    image: bandsintown/zookeeper:3.4.10
+    depends_on:
+      - consul
+      - consulator
+    command: consul-template -config /etc/consul-template/conf
+    environment:
+      - CONSUL_HTTP_ADDR=consul:8500
+      - DISABLE_CONSUL_TEMPLATE=true
+      - S6_LOGGING=0
+    ports:
+      - 2181
+      - 2888
+      - 3888
+
+  # Solr
+  solr:
+    image: bandsintown/solr:6.6.0
+    depends_on:
+      - consul
+      - consulator
+    command: consul-template -config /etc/consul-template/conf
+    environment:
+      - CONSUL_HTTP_ADDR=consul:8500
+      - DISABLE_CONSUL_TEMPLATE=true
+      - S6_LOGGING=0
+      - ZK_SERVICE=zookeeper
+    ports:
+      - 8983

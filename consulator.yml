@@ -1,0 +1,7 @@
+# Zookeeper Configuration
+zookeeper:
+  tickTime: 2500
+
+# Solr Configuration
+solr:
+  ZK_CLIENT_TIMEOUT: 20000
