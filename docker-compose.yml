@@ -64,6 +64,8 @@ services:
       - DISABLE_CONSUL_TEMPLATE=true
       - S6_LOGGING=0
       - ZK_SERVICE=zookeeper
-      - VERBOSE=yes
+      - SOLR_HOME=/data
     ports:
       - 8983
+    volumes:
+       - ./data:/data
