@@ -14,3 +14,8 @@ if [ -n "${EC2_IP}" ]; then
 fi
 
 echo -n "${SOLR_IP}" > /var/run/s6/container_environment/SOLR_HOST
+
+# Setup SOLR_HOME
+mkdir -p ${SOLR_HOME}
+test -f ${SOLR_HOME}/solr.xml || cp -f /opt/solr/server/solr/solr.xml ${SOLR_HOME}
+chown -R ${SOLR_USER}:${SOLR_USER} ${SOLR_HOME}
