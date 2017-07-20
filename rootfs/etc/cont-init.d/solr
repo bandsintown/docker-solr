@@ -17,5 +17,13 @@ echo -n "${SOLR_IP}" > /var/run/s6/container_environment/SOLR_HOST
 
 # Setup SOLR_HOME
 mkdir -p ${SOLR_HOME}
-test -f ${SOLR_HOME}/solr.xml || cp -f /opt/solr/server/solr/solr.xml ${SOLR_HOME}
+if [ ! -f ${SOLR_HOME}/solr.xml ]; then
+  cp -f /opt/solr/server/solr/solr.xml ${SOLR_HOME}
+fi
 chown -R ${SOLR_USER}:${SOLR_USER} ${SOLR_HOME}
+
+# Bootstrap Zookeeper
+# See: https://issues.apache.org/jira/browse/SOLR-7642
+if [ -n "${ZK_HOST}" ]; then
+  sh /opt/solr/server/scripts/cloud-scripts/zkcli.sh -zkhost "${ZK_HOST}" -cmd bootstrap -solrhome "${SOLR_HOME}"
+fi
