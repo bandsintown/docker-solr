@@ -63,7 +63,7 @@ services:
       - CONSUL_HTTP_ADDR=consul:8500
       - DISABLE_CONSUL_TEMPLATE=true
       - S6_LOGGING=0
-      - ZK_SERVICE=zookeeper
+      - ZK_HOST=zookeeper:2181/solr
       - SOLR_HOME=/data
     ports:
       - 8983

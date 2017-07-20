@@ -8,10 +8,8 @@
 
 # Set the ZooKeeper connection string if using an external ZooKeeper ensemble
 # e.g. host1:2181,host2:2181/chroot
-# Leave empty if not using SolrCloud
-{{ $zk_service := env "ZK_SERVICE" }}{{ if $zk_service }}{{ $index_max := len (service $zk_service) | subtract 1 }}{{ if ne $index_max -1 }}
-ZK_HOST={{ range $index, $service := service $zk_service }}{{ $service.Address }}:{{ $service.Port }}{{ if (ne $index $index_max) }},{{ end }}{{ end }}{{ or (env "ZK_CHROOT") "/solr" }}
-{{ end }}{{ end }}
+# Leave empty if not using SolrCloud {{ $zk_host := env "ZK_HOST" }}
+ZK_HOST="{{ keyOrDefault (printf "%s/ZK_HOST" $base_path ) $zk_host }}"
 
 # Set the ZooKeeper client timeout (for SolrCloud mode)
 ZK_CLIENT_TIMEOUT="{{ keyOrDefault (printf "%s/ZK_CLIENT_TIMEOUT" $base_path ) "15000" }}"

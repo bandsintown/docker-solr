@@ -21,7 +21,7 @@ services:
     environment:
       - DISABLE_CONSUL_TEMPLATE=true
       - CONSUL_HTTP_ADDR=consul:8500
-      - ZK_SERVICE=zookeeper
+      - ZK_HOST=zookeeper:2181/solr
       - VERSION=${VERSION}
 
   # Consul
