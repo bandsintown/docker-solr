@@ -1,3 +1,11 @@
+[![dockeri.co](http://dockeri.co/image/bandsintown/solr)](https://hub.docker.com/r/bandsintown/solr/)
+
+[![Build status](https://badge.buildkite.com/f78e045c0b561ba33f80f3c996ccfe89b49ade24b832f92bfd.svg)](https://buildkite.com/bandsintown/docker-solr)
+[![GitHub issues](https://img.shields.io/github/issues/bandsintown/docker-solr.svg "GitHub issues")](https://github.com/bandsintown/docker-solr)
+[![GitHub stars](https://img.shields.io/github/stars/bandsintown/docker-solr.svg "GitHub stars")](https://github.com/bandsintown/docker-solr)
+[![Docker layers](https://images.microbadger.com/badges/image/bandsintown/solr.svg)](http://microbadger.com/images/bandsintown/solr)
+	
+
 # What is Apache Solr™?
 
 Apache Solr is highly reliable, scalable and fault tolerant, providing distributed indexing, replication and load-balanced querying, automated failover and recovery, centralized configuration and more. Solr powers the search and navigation features of many of the world's largest internet sites.
