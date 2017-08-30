@@ -43,7 +43,7 @@ SOLR_OPTS="$SOLR_OPTS -Dsun.net.inetaddr.ttl=60 -Dsun.net.inetaddr.negative.ttl=
 
 # Changes the logging level. Valid values: ALL, TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF. Default is INFO
 # This is an alternative to changing the rootLogger in log4j.properties
-SOLR_LOG_LEVEL="{{ keyOrDefault (printf "%s/SOLR_LOG_LEVEL" $base_path ) "INFO" }}"
+SOLR_LOG_LEVEL="{{ keyOrDefault (printf "%s/SOLR_LOG_LEVEL" $base_path ) "WARN" }}"
 
 # Sets the port Solr binds to, default is 8983
 SOLR_PORT=8983
