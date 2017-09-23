@@ -11,10 +11,9 @@ RUN exec 2>&1 && apk-install bind-tools bc jq \
 	&& unzip -q bats.zip \
 	&& ./bats-${BATS_VERSION}/install.sh /usr/local \
 	&& ln -sf /usr/local/libexec/bats /usr/local/bin/bats \
-    && wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-	&& rm -f bats.zip dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && mv /tests/consul-template/etc /etc/consul-template
+  && wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+  && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+	&& rm -f bats.zip dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
 
 CMD ["bash"]
