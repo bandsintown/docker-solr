@@ -34,10 +34,10 @@ ENV SOLR_USER="solr" \
     SOLR_ARCHIVE_URL="https://archive.apache.org/dist/lucene/solr/$SOLR_VERSION/solr-$SOLR_VERSION.tgz" \
     PATH="/opt/solr/bin:/opt/docker-solr/scripts:$PATH" \
     SOLR_INCLUDE=/etc/default/solr.in.sh \
-    SOLR_HOME=/var/solr/data \
+    #SOLR_HOME=/var/solr/data \
     SOLR_PID_DIR=/var/solr \
-    SOLR_LOGS_DIR=/var/solr/logs \
-    LOG4J_PROPS=/var/solr/log4j2.xml
+    #SOLR_LOGS_DIR=/var/solr/logs \
+    #LOG4J_PROPS=/var/solr/log4j2.xml
 
 #RUN set -ex; \
 #  addgroup -S --g "$SOLR_GID" "$SOLR_GROUP"; \
